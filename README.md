@@ -140,13 +140,21 @@ web redistribution).
 
 ## Releasing
 
-Releases are cut by pushing a tag named `vX.Y.Z`. The `release` workflow then runs the tests,
-builds the archives and creates the GitHub release with generated notes:
+Releases are automated with [release-please](https://github.com/googleapis/release-please). Write
+commit messages in the [Conventional Commits](https://www.conventionalcommits.org/) style:
 
-```bash
-git tag v0.1.0
-git push origin v0.1.0
-```
+- `feat: ...` for a new feature (a minor version bump, or while below 1.0 also for breaking changes)
+- `fix: ...` for a bug fix (a patch bump)
+- `docs: ...` and `ci: ...` appear in the changelog but do not by themselves trigger a release
+- add `!` after the type, or a `BREAKING CHANGE:` footer, for a breaking change
+
+On every push to `main`, release-please opens or updates a **release pull request** that bumps the
+version and writes `CHANGELOG.md` from those messages. **Merging it** creates the `vX.Y.Z` tag and
+the GitHub release, and the same workflow then runs the tests, builds the archives and attaches
+them to the release. Commits that do not follow the style are left out of the changelog and do not
+trigger a release.
+
+To force a particular version, put `Release-As: X.Y.Z` in the footer of a commit message.
 
 To build the archives locally without releasing, run `./release.sh <version>`. It
 writes `release/design-export-docs_<version>_<os>_<arch>.{tar.gz,zip}` and `SHA256SUMS`, and is the same

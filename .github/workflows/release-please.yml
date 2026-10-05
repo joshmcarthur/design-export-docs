@@ -1,0 +1,60 @@
+name: Release
+
+# release-please keeps a release pull request open that bumps the version and writes CHANGELOG.md
+# from Conventional Commit messages. Merging that pull request creates the tag and the GitHub
+# release; the second job then builds the binaries and attaches them to it.
+#
+# The binaries are built here, not in a workflow triggered by the tag: tags and releases created
+# with the default GITHUB_TOKEN do not start other workflows.
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+      version: ${{ steps.release.outputs.version }}
+    steps:
+      - uses: googleapis/release-please-action@v5
+        id: release
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  binaries:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # upload release assets
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.release-please.outputs.tag_name }}
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache-dependency-path: go.sum
+
+      - name: Test
+        run: go vet ./... && go test ./...
+
+      - name: Build archives
+        env:
+          VERSION: ${{ needs.release-please.outputs.version }}
+        run: ./release.sh "$VERSION"
+
+      - name: Attach archives to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.release-please.outputs.tag_name }}
+        run: gh release upload "$TAG" release/* --clobber
