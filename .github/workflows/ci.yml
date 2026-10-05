@@ -28,3 +28,25 @@ jobs:
 
       - name: Release archives build for every platform
         run: ./release.sh 0.0.0-ci "$RUNNER_TEMP/release"
+
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build the image
+        run: docker build -t design-export-docs:ci --build-arg VERSION=0.0.0-ci .
+
+      - name: Smoke test
+        run: |
+          docker run --rm design-export-docs:ci version | grep -qx 'design-export-docs 0.0.0-ci'
+          mkdir "$RUNNER_TEMP/out"
+          docker run --rm --user "$(id -u):$(id -g)" \
+            -v "$PWD/testdata/mini":/in:ro -v "$RUNNER_TEMP/out":/out \
+            design-export-docs:ci build --out /out/site mini=/in
+          test -f "$RUNNER_TEMP/out/site/mini/index.html"
+
+      - name: Multi-platform build (nothing is pushed)
+        run: |
+          docker buildx create --use >/dev/null
+          docker buildx build --platform linux/amd64,linux/arm64 --provenance=false --output type=cacheonly .

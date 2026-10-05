@@ -32,6 +32,15 @@ Check `design-export-docs version` afterwards, and verify the download against `
 (`grep darwin_arm64 SHA256SUMS | shasum -a 256 -c -`). See [Releasing](#releasing) for how
 releases are made.
 
+**With Docker.** A minimal image (about 3 MB: the static binary and nothing else) is published for
+linux/amd64 and linux/arm64, so no binary needs installing:
+
+```bash
+docker run --rm ghcr.io/joshmcarthur/design-export-docs version
+```
+
+See [Using the Docker image](#using-the-docker-image) for the commands.
+
 **From source.** You need Go 1.23 or later.
 
 ```bash
@@ -59,6 +68,27 @@ Each folder becomes a section of the site named after the folder. Give a differe
 ```bash
 design-export-docs build --out dist main=./my-system other=./another-system
 ```
+
+### Using the Docker image
+
+Mount your folders and pass the same arguments as the binary. Paths are paths inside the container:
+the image's working directory is `/work`, so mounting the current folder there lets you use relative
+paths.
+
+```bash
+# build ./my-system into ./dist
+docker run --rm -v "$PWD":/work ghcr.io/joshmcarthur/design-export-docs build --out dist ./my-system
+
+# serve it at http://localhost:8080/
+docker run --rm -p 8080:8080 -v "$PWD/dist":/site ghcr.io/joshmcarthur/design-export-docs serve --addr 0.0.0.0:8080 /site
+```
+
+- **Listen on `0.0.0.0` when serving.** The default `127.0.0.1` is the container's own loopback, so
+  the published port would be unreachable.
+- **The image runs as a non-root user (uid 65532).** On Docker Desktop (macOS, Windows) the output
+  lands in your folder as you. On Linux, add `--user "$(id -u):$(id -g)"` so you can write to the
+  mounted folder and own the result.
+- **Pin a version** (`:0.1.0`) in scripts and CI; `:latest` follows each new release.
 
 ### Commands
 
@@ -150,8 +180,9 @@ commit messages in the [Conventional Commits](https://www.conventionalcommits.or
 
 On every push to `main`, release-please opens or updates a **release pull request** that bumps the
 version and writes `CHANGELOG.md` from those messages. **Merging it** creates the `vX.Y.Z` tag and
-the GitHub release, and the same workflow then runs the tests, builds the archives and attaches
-them to the release. Commits that do not follow the style are left out of the changelog and do not
+the GitHub release. The same workflow then runs the tests, attaches the binaries to the release, and
+pushes a multi-platform Docker image to `ghcr.io/joshmcarthur/design-export-docs`, tagged with the
+version and `latest`. Commits that do not follow the style are left out of the changelog and do not
 trigger a release.
 
 To force a particular version, put `Release-As: X.Y.Z` in the footer of a commit message.

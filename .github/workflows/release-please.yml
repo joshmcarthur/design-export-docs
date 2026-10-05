@@ -2,7 +2,7 @@ name: Release
 
 # release-please keeps a release pull request open that bumps the version and writes CHANGELOG.md
 # from Conventional Commit messages. Merging that pull request creates the tag and the GitHub
-# release; the second job then builds the binaries and attaches them to it.
+# release; the other jobs then build the binaries and the Docker image and publish them.
 #
 # The binaries are built here, not in a workflow triggered by the tag: tags and releases created
 # with the default GITHUB_TOKEN do not start other workflows.
@@ -58,3 +58,31 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ needs.release-please.outputs.tag_name }}
         run: gh release upload "$TAG" release/* --clobber
+
+  image:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write # push to the GitHub Container Registry
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.release-please.outputs.tag_name }}
+
+      - name: Log in to the GitHub Container Registry
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ACTOR: ${{ github.actor }}
+        run: echo "$GH_TOKEN" | docker login ghcr.io --username "$ACTOR" --password-stdin
+
+      - name: Build and push (linux/amd64 and linux/arm64)
+        env:
+          VERSION: ${{ needs.release-please.outputs.version }}
+        run: |
+          image="ghcr.io/${GITHUB_REPOSITORY,,}"
+          docker buildx create --use >/dev/null
+          docker buildx build --platform linux/amd64,linux/arm64 --provenance=false \
+            --build-arg VERSION="$VERSION" \
+            --tag "$image:$VERSION" --tag "$image:latest" --push .
