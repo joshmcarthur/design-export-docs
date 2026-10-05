@@ -1,0 +1,44 @@
+{{define "specimen"}}<!doctype html>
+<html lang="en">
+<head>{{template "dsx-head"}}<title>Spacing and shape</title></head>
+<body>
+{{if .Spacing}}
+<h2 class="dsx-h">Spacing</h2>
+{{range .Spacing}}
+<div class="dsx-row">
+  <div class="dsx-label"><span class="dsx-name">{{.Name}}</span> <span class="dsx-mono">{{.Value}}</span></div>
+  <div class="dsx-bar" style="{{.Style}}"></div>
+  {{if .Usage}}<span class="dsx-use">{{.Usage}}</span>{{end}}
+</div>
+{{end}}
+{{end}}
+{{if .Radius}}
+<h2 class="dsx-h">Radius</h2>
+{{range .Radius}}
+<div class="dsx-row">
+  <div class="dsx-label"><span class="dsx-name">{{.Name}}</span> <span class="dsx-mono">{{.Value}}</span></div>
+  <div class="dsx-box" style="{{.Style}}"></div>
+  {{if .Usage}}<span class="dsx-use">{{.Usage}}</span>{{end}}
+</div>
+{{end}}
+{{end}}
+{{if .Shadow}}
+<h2 class="dsx-h">Shadows</h2>
+{{range .Shadow}}
+<div class="dsx-row">
+  <div class="dsx-label"><span class="dsx-name">{{.Name}}</span><div class="dsx-mono">{{.Value}}</div></div>
+  <div class="dsx-stage"><div class="dsx-shadow" style="{{.Style}}"></div></div>
+  {{if .Usage}}<span class="dsx-use">{{.Usage}}</span>{{end}}
+</div>
+{{end}}
+{{end}}
+{{range .Others}}
+<h2 class="dsx-h">{{.Key}}</h2>
+<table class="dsx-t">
+  <tr><th>Token</th><th>Value</th><th>Usage</th></tr>
+  {{range .Tokens}}<tr><td class="dsx-name">{{.Name}}</td><td class="dsx-mono">{{.Value}}</td><td class="dsx-use">{{.Usage}}</td></tr>{{end}}
+</table>
+{{end}}
+</body>
+</html>
+{{end}}

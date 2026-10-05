@@ -1,0 +1,33 @@
+{{define "dsx-head"}}<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../tokens.css">
+<style>
+/* Specimen chrome. Neutral on purpose: only the samples use the system's own tokens. */
+body { margin: 0; padding: 16px; background: #fff; color: #1c1d1f; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+.dsx-h { margin: 28px 0 10px; padding-top: 10px; border-top: 1px solid #dcdee2; font-size: 15px; font-weight: 600; font-family: system-ui, sans-serif; }
+.dsx-h:first-child { margin-top: 0; border-top: 0; padding-top: 0; }
+.dsx-sub { margin: 0 0 8px; color: #5c6066; font-size: 13px; }
+.dsx-mono { font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; color: #3a3d42; }
+.dsx-use { color: #5c6066; font-size: 13px; margin: 2px 0 0; }
+.dsx-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.dsx-tile { border: 1px solid #dcdee2; border-radius: 8px; overflow: hidden; background: #fff; }
+.dsx-sws { display: flex; }
+.dsx-sw { flex: 1; height: 56px; border-bottom: 1px solid rgba(0,0,0,.12); }
+.dsx-sw + .dsx-sw { border-left: 1px solid rgba(0,0,0,.12); }
+.dsx-body { padding: 8px 10px 10px; }
+.dsx-name { font-weight: 600; word-break: break-word; }
+table.dsx-t { border-collapse: collapse; width: 100%; }
+table.dsx-t th, table.dsx-t td { text-align: left; vertical-align: top; padding: 6px 10px 6px 0; border-bottom: 1px solid #ececef; }
+table.dsx-t th { color: #5c6066; font-weight: 600; font-size: 12px; }
+.dsx-row { display: flex; align-items: center; gap: 14px; padding: 5px 0; border-bottom: 1px solid #f0f1f3; }
+.dsx-row .dsx-label { flex: 0 0 200px; min-width: 0; }
+.dsx-bar { height: 16px; background: #5b8def; border-radius: 2px; min-width: 1px; }
+.dsx-box { flex: 0 0 auto; width: 64px; height: 64px; border: 2px solid #3a3d42; background: #e8eaed; }
+.dsx-stage { padding: 20px; background: #f1f2f4; border-radius: 8px; }
+.dsx-shadow { width: 120px; height: 64px; background: #fff; border-radius: 6px; }
+.dsx-style { padding: 10px 0 14px; border-bottom: 1px solid #ececef; }
+.dsx-style .dsx-meta { display: flex; gap: 12px; flex-wrap: wrap; align-items: baseline; margin-bottom: 4px; }
+.dsx-face { display: flex; gap: 16px; align-items: baseline; padding: 6px 0; border-bottom: 1px solid #f0f1f3; }
+.dsx-face .dsx-aa { font-size: 34px; line-height: 1.1; flex: 0 0 260px; }
+</style>
+{{end}}

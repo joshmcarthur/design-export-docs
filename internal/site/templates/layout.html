@@ -1,0 +1,46 @@
+{{define "layout"}}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{.Title}}</title>
+<link rel="stylesheet" href="{{.Root}}_viewer/viewer.css">
+<script src="{{.Root}}_viewer/viewer.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="{{.Root}}index.html">Design systems</a>
+  {{if .System}}
+  <span class="sep" aria-hidden="true">/</span>
+  <a class="sys" href="{{.SysRoot}}index.html">{{.System.Title}}</a>
+  {{end}}
+</header>
+{{if .System}}
+<nav class="sections" aria-label="{{.System.Title}} pages">
+  {{range .System.Pages}}<a href="{{$.SysRoot}}{{.Path}}"{{if eq .Key $.Section}} aria-current="page"{{end}}>{{.Title}}</a>
+  {{end}}
+</nav>
+{{end}}
+<div class="layout{{if .ShowSide}} has-side{{end}}">
+  {{if .ShowSide}}
+  <nav class="side" aria-label="Components">
+    <input type="search" id="filter" placeholder="Filter components" aria-label="Filter components">
+    {{range .System.Groups}}
+    <div class="group">
+      <h2>{{.Name}}</h2>
+      <ul>
+        {{range .Cards}}<li><a href="{{$.SysRoot}}components/{{.Name}}/index.html"{{if eq .Name $.Current}} aria-current="page"{{end}}>{{.Name}}</a></li>
+        {{end}}
+      </ul>
+    </div>
+    {{end}}
+  </nav>
+  {{end}}
+  <main id="main">
+{{template "main" .}}
+  </main>
+</div>
+</body>
+</html>
+{{end}}

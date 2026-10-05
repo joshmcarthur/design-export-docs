@@ -1,0 +1,24 @@
+{{define "specimen"}}<!doctype html>
+<html lang="en" data-theme="{{(index .Themes 0).ID}}">
+<head>{{template "dsx-head"}}<title>Colours</title></head>
+<body>
+{{range .Groups}}
+<h2 class="dsx-h">{{.Name}}</h2>
+<div class="dsx-grid">
+  {{range .Tiles}}
+  <article class="dsx-tile">
+    <div class="dsx-sws">
+      {{range .Swatches}}<div class="dsx-sw" data-theme="{{.Theme}}" style="{{.Style}}" title="{{.Theme}}"></div>{{end}}
+    </div>
+    <div class="dsx-body">
+      <div class="dsx-name">{{.Name}}</div>
+      {{range .Swatches}}<div class="dsx-mono">{{if $.Multi}}{{.Theme}}: {{end}}{{.Value}}{{if .Alias}} (alias of {{.Alias}}){{end}}</div>{{end}}
+      {{if .Usage}}<p class="dsx-use">{{.Usage}}</p>{{end}}
+    </div>
+  </article>
+  {{end}}
+</div>
+{{end}}
+</body>
+</html>
+{{end}}

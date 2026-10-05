@@ -1,0 +1,36 @@
+{{define "specimen"}}<!doctype html>
+<html lang="en">
+<head>{{template "dsx-head"}}<title>Typography</title></head>
+<body>
+{{if .Faces}}
+<h2 class="dsx-h">Font files</h2>
+{{range .Faces}}
+<p class="dsx-sub">{{.Family}}</p>
+{{range .Faces}}
+<div class="dsx-face">
+  <div class="dsx-aa"{{if .Sample}} style="{{.Sample}}"{{end}}>Aa Bb 123</div>
+  <div class="dsx-mono">weight {{.Weight}} · {{.Style}} · <a href="../{{.File}}" download>{{.File}}</a></div>
+</div>
+{{end}}
+{{end}}
+{{end}}
+{{if .Families}}
+<h2 class="dsx-h">Font stacks</h2>
+<table class="dsx-t">
+  <tr><th>Variable</th><th>Stack</th></tr>
+  {{range .Families}}<tr><td class="dsx-mono">--font-{{.Key}}</td><td class="dsx-mono">{{.Stack}}</td></tr>{{end}}
+</table>
+{{end}}
+{{range .Groups}}
+<h2 class="dsx-h">{{.Name}}</h2>
+{{range .Styles}}
+<div class="dsx-style">
+  <div class="dsx-meta"><span class="dsx-name">{{.Name}}</span><span class="dsx-mono">{{.Meta}}</span></div>
+  <div class="{{.Name}}">{{.Sample}}</div>
+  {{if .Usage}}<p class="dsx-use">{{.Usage}}</p>{{end}}
+</div>
+{{end}}
+{{end}}
+</body>
+</html>
+{{end}}

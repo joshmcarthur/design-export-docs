@@ -1,0 +1,55 @@
+{
+ "v": 3,
+ "layout": "files",
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-01-01T00:00:00Z"
+ },
+ "title": "Mini",
+ "namespace": "Mini",
+ "libraries": [
+  {
+   "name": "stub",
+   "version": "1",
+   "global": "Stub",
+   "file": "components/lib/stub.js"
+  }
+ ],
+ "groups": [
+  "Logos"
+ ],
+ "assetGroups": {
+  "Logos": {
+   "name": "Logos",
+   "tile": "l",
+   "order": [
+    "mark.svg"
+   ],
+   "files": {
+    "mark.svg": {
+     "name": "mark.svg",
+     "blob": "0123456789abcdef0123456789abcdef",
+     "size": 112,
+     "type": "image/svg+xml"
+    },
+    "wide~20mark.svg": {
+     "name": "wide mark.svg",
+     "blob": "fedcba9876543210fedcba9876543210",
+     "size": 112,
+     "type": "image/svg+xml"
+    }
+   }
+  }
+ },
+ "blobs": {},
+ "docs": {
+  "readme": "project/README.md",
+  "sections": []
+ },
+ "lastChange": {
+  "by": "fixture",
+  "at": "2026-01-01T00:00:00Z",
+  "via": "hand-written",
+  "note": "Synthetic test export."
+ }
+}

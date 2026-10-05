@@ -1,0 +1,17 @@
+{{define "main"}}
+<p class="crumbs"><a href="../index.html">Components</a>{{if .Content.Group}} · {{.Content.Group}}{{end}}</p>
+<h1>{{.Content.Name}}</h1>
+{{if .Content.Summary}}<p class="lede">{{.Content.Summary}}</p>{{end}}
+{{if .Content.HasPreview}}
+<section aria-label="Live preview">
+  <iframe class="pv" src="preview.html" title="{{.Content.Name}} preview" data-min="{{.Content.Height}}" style="height:{{.Content.Height}}px"></iframe>
+</section>
+{{end}}
+{{if .Content.Readme}}<section class="prose">{{.Content.Readme}}</section>{{end}}
+{{if .Content.Props}}
+<details class="props">
+  <summary>Props</summary>
+  <pre><code>{{.Content.Props}}</code></pre>
+</details>
+{{end}}
+{{end}}

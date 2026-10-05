@@ -1,0 +1,11 @@
+{{define "main"}}
+<h1>Design systems</h1>
+<ul class="systems">
+  {{range .Content.Systems}}
+  <li>
+    <h2><a href="{{.Slug}}/index.html">{{.Title}}</a></h2>
+    <p>{{.Components}} components</p>
+  </li>
+  {{end}}
+</ul>
+{{end}}

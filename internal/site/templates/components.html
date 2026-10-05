@@ -1,0 +1,18 @@
+{{define "main"}}
+<h1>Components</h1>
+<p class="lede">{{.Content.Components}} components in {{len .Content.Groups}} groups.</p>
+{{range .Content.Groups}}
+<section class="cardgroup">
+  <h2>{{.Name}}</h2>
+  <div class="cards">
+    {{range .Cards}}
+    <article class="card">
+      <h3><a href="{{.Name}}/index.html">{{.Name}}</a></h3>
+      {{if .Subtitle}}<p class="sub">{{.Subtitle}}</p>{{end}}
+      {{if .HasPreview}}<iframe class="pv" src="{{.Name}}/preview.html" title="{{.Name}} preview" loading="lazy" data-min="{{.Height}}" style="height:{{.Height}}px"></iframe>{{end}}
+    </article>
+    {{end}}
+  </div>
+</section>
+{{end}}
+{{end}}

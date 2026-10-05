@@ -1,0 +1,3 @@
+.mini-btn { background: var(--brand-500); color: var(--surface); border: 0; border-radius: var(--radius-sm); padding: var(--space-2); font: var(--font-body); }
+.mini-logo { width: 40px; height: 40px; background: url(/_blob/0123456789abcdef0123456789abcdef) center / contain no-repeat; }
+.mini-card { box-shadow: var(--shadow-card); opacity: var(--half); }

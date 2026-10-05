@@ -1,0 +1,7 @@
+{{define "main"}}
+<h1>{{.Content.Title}}</h1>
+{{if .Content.HasCover}}
+<iframe class="pv cover" src="components/Cover/preview.html" title="{{.Content.Title}} cover" data-min="240"></iframe>
+{{end}}
+<section class="prose">{{.Content.Readme}}</section>
+{{end}}

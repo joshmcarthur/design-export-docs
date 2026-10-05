@@ -1,0 +1,18 @@
+{{define "main"}}
+<h1>Assets</h1>
+{{range .Content.Groups}}
+<section class="assetgroup">
+  <h2>{{.Name}}</h2>
+  {{if .Readme}}<div class="prose">{{.Readme}}</div>{{end}}
+  <ul class="assets">
+    {{range .Files}}
+    <li>
+      {{if .Image}}<a href="{{.Path}}"><img src="{{.Path}}" alt="" loading="lazy" decoding="async"></a>{{else}}<a class="file" href="{{.Path}}">{{.Type}}</a>{{end}}
+      <span class="n"><a href="{{.Path}}">{{.Name}}</a></span>
+      <span class="m">{{.Size}}</span>
+    </li>
+    {{end}}
+  </ul>
+</section>
+{{end}}
+{{end}}

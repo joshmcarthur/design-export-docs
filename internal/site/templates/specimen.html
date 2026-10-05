@@ -1,0 +1,5 @@
+{{define "main"}}
+<h1>{{.Content.Heading}}</h1>
+<p class="lede">{{.Content.Lede}}{{if .Content.TokensJSON}} <a href="tokens.json" download>Download tokens.json</a>.{{end}}</p>
+<iframe class="pv" src="{{.Content.Src}}" title="{{.Content.Heading}}" data-min="400" style="height:400px"></iframe>
+{{end}}
